@@ -178,5 +178,6 @@ Subsystem sftp	/usr/libexec/openssh/sftp-server
 #	AllowTcpForwarding no
 #	PermitTTY no
 
-/* ログイン可能ユーザ名@IPアドレス
+/* ログイン可能ユーザ名@IPアドレス */
 AllowUsers ec2-user@IPアドレス ubuntu@IPアドレス centos@IPアドレス
+
