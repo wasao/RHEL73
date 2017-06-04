@@ -61,6 +61,7 @@ MaxAuthTries 6
 MaxSessions 1
 
 #RSAAuthentication yes
+/* 公開鍵認証を許可 */
 #PubkeyAuthentication yes
 
 # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
@@ -101,8 +102,8 @@ KerberosAuthentication no
 #KerberosUseKuserok yes
 
 # GSSAPI options
-/* GSSAPI認証無効化 */
-GSSAPIAuthentication no
+/* GSSAPI認証 */
+GSSAPIAuthentication yes
 GSSAPICleanupCredentials no
 #GSSAPIStrictAcceptorCheck yes
 #GSSAPIKeyExchange no
@@ -140,7 +141,7 @@ UsePrivilegeSeparation sandbox          # Default for new installations.
 #PermitUserEnvironment no
 #Compression delayed
 /* クライアントに応答を要求 */
-ClientAliveInterval 20
+ClientAliveInterval 30
 /* クライアントの応答が無かった際のリトライ */
 ClientAliveCountMax 3
 #ShowPatchLevel no
@@ -161,9 +162,6 @@ Banner none
 #AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
 #AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
 #AcceptEnv XMODIFIERS
-
-/* 特定ユーザのみログイン許可 */
-AllowUsers ec2-user
 
 # override default of no subsystems
 Subsystem sftp  /usr/libexec/openssh/sftp-server
