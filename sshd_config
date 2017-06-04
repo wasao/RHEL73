@@ -1,6 +1,6 @@
 /* /etc/ssh/sshd_config */
 
-#       $OpenBSD: sshd_config,v 1.93 2014/01/10 05:59:19 djm Exp $
+#	$OpenBSD: sshd_config,v 1.93 2014/01/10 05:59:19 djm Exp $
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -60,8 +60,8 @@ MaxAuthTries 6
 /* 多重接続 */
 MaxSessions 1
 
-#RSAAuthentication yes
-/* 公開鍵認証を許可 */
+/* RSA認証(SSH1のみ) */
+#RSAAuthentication no
 #PubkeyAuthentication yes
 
 # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
@@ -76,25 +76,29 @@ AuthorizedKeysFile .ssh/authorized_keys
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
 #RhostsRSAAuthentication no
 # similar for protocol version 2
+/* Hostbased認証無効 */
 #HostbasedAuthentication no
 # Change to yes if you don't trust ~/.ssh/known_hosts for
 # RhostsRSAAuthentication and HostbasedAuthentication
 #IgnoreUserKnownHosts no
 # Don't read the user's ~/.rhosts and ~/.shosts files
+/* rshコマンドの動作をエミュレート可能になり、RSH経由の安全でないアクセスを無効化 */
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
+#PasswordAuthentication yes
 /* 空パスワードでのログインを拒否 */
 PermitEmptyPasswords no
 /* パスワード認証無効 */
 PasswordAuthentication no
 
 # Change to no to disable s/key passwords
+#ChallengeResponseAuthentication yes
 /* チャレンジレスポンス認証無効化 */
 ChallengeResponseAuthentication no
 
 # Kerberos options
-/* Kerberos認証無効化 */
+/* Kerberos認証無効 */
 KerberosAuthentication no
 #KerberosOrLocalPasswd yes
 #KerberosTicketCleanup yes
@@ -102,8 +106,8 @@ KerberosAuthentication no
 #KerberosUseKuserok yes
 
 # GSSAPI options
-/* GSSAPI認証 */
-GSSAPIAuthentication yes
+/* GSSAPI認証無効 */
+GSSAPIAuthentication no
 GSSAPICleanupCredentials no
 #GSSAPIStrictAcceptorCheck yes
 #GSSAPIKeyExchange no
@@ -123,10 +127,12 @@ GSSAPICleanupCredentials no
 /* PAM（Pluggable Authentication Module）認証無効化 */
 UsePAM no
 
-#AllowAgentForwarding yes
-#AllowTcpForwarding yes
+/* ポートフォワード設定（クライアント） */
+AllowAgentForwarding no
+/* ポートフォワード設定（サーバ） */
+AllowTcpForwarding no
 /* ポート中継を許可するか */
-GatewayPorts no
+#GatewayPorts no
 /* X window systemを利用しないのであればno */
 X11Forwarding no
 #X11DisplayOffset 10
@@ -137,7 +143,7 @@ X11Forwarding no
 #TCPKeepAlive yes
 #UseLogin no
 /* 受信用の子プロセスを作りroot権限を分離 */
-UsePrivilegeSeparation sandbox          # Default for new installations.
+UsePrivilegeSeparation sandbox		# Default for new installations.
 #PermitUserEnvironment no
 #Compression delayed
 /* クライアントに応答を要求 */
@@ -164,12 +170,13 @@ Banner none
 #AcceptEnv XMODIFIERS
 
 # override default of no subsystems
-Subsystem sftp  /usr/libexec/openssh/sftp-server
+Subsystem sftp	/usr/libexec/openssh/sftp-server
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
-#       X11Forwarding no
-#       AllowTcpForwarding no
-#       PermitTTY no
-#       ForceCommand cvs server
+#	X11Forwarding no
+#	AllowTcpForwarding no
+#	PermitTTY no
 
+/* ログイン可能ユーザ名@IPアドレス
+AllowUsers ec2-user@IPアドレス ubuntu@IPアドレス centos@IPアドレス
