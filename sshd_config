@@ -17,7 +17,7 @@
 # semanage port -a -t ssh_port_t -p tcp #PORTNUMBER
 #
 #/* 待受ポート番号 */
-Port xx
+Port 32777
 #AddressFamily any
 #/* 接続を受け付けるアドレスを指定 */
 #ListenAddress 0.0.0.0
